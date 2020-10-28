@@ -16,47 +16,61 @@
         }
 
         .btn-clear {
+            height: 40px;
+            width: 115px;
+            color: #FFF;
+            text-transform: uppercase;
+            border: 0;
             position: absolute;
+            background: #5b2e90;
         }
     </style>
     <body>
-        <!-- TODO -->
-        <!-- <button class="btn-clear" onclick="drawClear()">limpar</button> -->
+        <button class="btn-clear" onclick="drawClear()">limpar</button>
+        <canvas id="canvas" height="640" width="360"></canvas>
 
         <script>
             
-            var $body = document.querySelector('body');
-            
-            var canvas = document.createElement('canvas');
-            canvas.style.height = `${window.innerHeight}px`;
-            canvas.style.width = `${window.innerWidth}px`;
-
-            var context = canvas.getContext('2d');
-
-            $body.insertAdjacentElement('beforeend', canvas);
-        
-
-            console.log('canvas: ', canvas);
-            console.log('canvas H/W', canvas.clientWidth, canvas.clientHeight);
+            var canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d');
 
             context.fillStyle = 'grey';
             context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+            let lastPositionX,
+                lastPositionY;
+
+            let lastIndiceColors;
             
             function drawStuff(event) {
-                    var x = event.pageX - canvas.offsetLeft;
-                    var y = event.pageY - canvas.offsetTop;
+                let x = event.pageX - canvas.offsetLeft;
+                let y = event.pageY - canvas.offsetTop;
 
-                    context.fillStyle = "blue";
-                    context.beginPath();
-                    context.arc(x, y, 30, 0, 2 * Math.PI);
-                    context.fill();
+                const colors = ['blue', 'pink', 'orange', 'green'];
+                const indiceRandom = Math.floor(Math.random() * colors.length);
 
-                    console.log("posição do clique : " + x + ", " + y);
+                if( x !== lastPositionX && y !== lastPositionY ) {
+                    context.fillStyle = "red";
+                    
+                    lastPositionX = x;
+                    lastPositionY = y;
+
+                } else {
+                    context.fillStyle = colors[indiceRandom];
                 }
 
+                context.beginPath();
+                
+                context.arc(x, y, 30, 0, 2 * Math.PI);
+                context.fill();
+
+                console.log("posição do clique : " + x + ", " + y);
+                console.log("ultima posição do clique : " + lastPositionX + ", " + lastPositionY);
+                console.log("ultima cor : " + indiceRandom + ", " + colors[indiceRandom]);
+            }
+
             canvas.onclick = drawStuff;
-            
-            // TODO
+
             function drawClear() {
                 context.fillStyle = 'grey';
                 context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
