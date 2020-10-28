@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Praticando canvas (Game - IslaPaint)</title>
+    </head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .btn-clear {
+            position: absolute;
+        }
+    </style>
+    <body>
+        <!-- TODO -->
+        <!-- <button class="btn-clear" onclick="drawClear()">limpar</button> -->
+
+        <script>
+            
+            var $body = document.querySelector('body');
+            
+            var canvas = document.createElement('canvas');
+            canvas.style.height = `${window.innerHeight}px`;
+            canvas.style.width = `${window.innerWidth}px`;
+
+            var context = canvas.getContext('2d');
+
+            $body.insertAdjacentElement('beforeend', canvas);
+        
+
+            console.log('canvas: ', canvas);
+            console.log('canvas H/W', canvas.clientWidth, canvas.clientHeight);
+
+            context.fillStyle = 'grey';
+            context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+            
+            function drawStuff(event) {
+                    var x = event.pageX - canvas.offsetLeft;
+                    var y = event.pageY - canvas.offsetTop;
+
+                    context.fillStyle = "blue";
+                    context.beginPath();
+                    context.arc(x, y, 30, 0, 2 * Math.PI);
+                    context.fill();
+
+                    console.log("posição do clique : " + x + ", " + y);
+                }
+
+            canvas.onclick = drawStuff;
+            
+            // TODO
+            function drawClear() {
+                context.fillStyle = 'grey';
+                context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+            }
+            
+        </script>
+    </body>
+</html>
